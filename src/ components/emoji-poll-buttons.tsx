@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 export interface buttonProps {
   icon: string;
@@ -34,7 +34,6 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
 }) => {
   //states
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
-
   //functions
   const handleIconHover = (icon: string) => {
     setHoveredEmoji(icon);
@@ -47,6 +46,7 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
   const handleClick = (button: buttonProps, currentIndex: number) => {
     handleEmotSelect && handleEmotSelect(button, currentIndex);
   };
+
   return (
     <Stack direction={"row"} spacing={10}>
       {buttons.map((button, index) => {

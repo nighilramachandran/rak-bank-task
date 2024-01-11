@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   };
 
   const handleEmotSelect = (value: buttonProps, currentIndex: number) => {
-    // console.log(value, currentIndex);
+    console.log(value, currentIndex);
     handleSlideChange(currentIndex + 1);
   };
 

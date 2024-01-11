@@ -5,6 +5,9 @@ import EmojiPollButtons, {
 } from "./ components/emoji-poll-buttons";
 import VerticalCarousel from "./ components/vertical-carousel";
 import styled from "@emotion/styled";
+import { useAppSelector } from "./redux/hooks";
+import { useDispatch } from "react-redux";
+import { AddPoll } from "./redux/reducers/poll";
 
 const Home: React.FC = () => {
   //states
@@ -12,6 +15,8 @@ const Home: React.FC = () => {
   const [toggle, setToggle] = useState<boolean>(false);
   const [firstGridWidth, setFirstGridWidth] = useState<string>("50%");
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+
+  const dispatch = useDispatch();
 
   //functions
   const handleSlideChange = (index: number) => {
@@ -21,6 +26,14 @@ const Home: React.FC = () => {
   const handleEmotSelect = (value: buttonProps, currentIndex: number) => {
     console.log(value, currentIndex);
     handleSlideChange(currentIndex + 1);
+    dispatch(
+      AddPoll({
+        index: currentIndex,
+        description: slides[currentIndex].description,
+        icon: value.icon,
+        iconValue: value.value,
+      })
+    );
   };
 
   const slides = [

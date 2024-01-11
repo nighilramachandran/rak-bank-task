@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, Stack, Typography } from "@mui/material";
 import React, { useMemo, useState } from "react";
+import { useAppSelector } from "../redux/hooks";
 
 export interface buttonProps {
   icon: string;
@@ -47,9 +48,13 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
     handleEmotSelect && handleEmotSelect(button, currentIndex);
   };
 
+  const polls = useAppSelector((state) => state.Poll.poll);
+
   return (
     <Stack direction={"row"} spacing={10}>
       {buttons.map((button, index) => {
+        const pollExists = polls.find((poll) => poll.index === _index);
+
         return (
           <EmojiStyled
             key={index}
@@ -58,14 +63,14 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
             onClick={() => handleClick(button, _index)}
             sx={{
               opacity:
-                hoveredEmoji === null
-                  ? 1
-                  : hoveredEmoji === button.icon
+                hoveredEmoji === null ||
+                (hoveredEmoji || pollExists?.icon) === button.icon
                   ? 1
                   : 0.5,
-
               transform:
-                hoveredEmoji === button.icon ? "translateY(-10px)" : "",
+                (hoveredEmoji || pollExists?.icon) === button.icon
+                  ? "translateY(-10px)"
+                  : "",
             }}
           >
             {button.icon}
@@ -74,7 +79,8 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
               sx={{
                 color: "text.secondary",
                 fontSize: "15px",
-                opacity: hoveredEmoji === button.icon ? 1 : 0,
+                opacity:
+                  (hoveredEmoji || pollExists?.icon) === button.icon ? 1 : 0,
               }}
             >
               {button.value}

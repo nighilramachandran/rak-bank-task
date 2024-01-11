@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
-import { RequestStatus } from "../../interfaces";
-import { NavigateFunction } from "react-router-dom";
+import { PollProps, RequestStatus } from "../../interfaces";
 
 interface InitialState {
   status: RequestStatus;
+  poll: PollProps[];
 }
 
 const initialState: InitialState = {
   status: "nothing",
+  poll: [],
 };
 
 const PollSlice = createSlice({
@@ -18,10 +19,20 @@ const PollSlice = createSlice({
     setStatus: (state, { payload }: PayloadAction<RequestStatus>) => {
       state.status = payload;
     },
+    AddPoll: (state, { payload }: PayloadAction<PollProps>) => {
+      const existingIndex = state.poll.findIndex(
+        (poll) => poll.index === payload.index
+      );
+      if (existingIndex !== -1) {
+        state.poll[existingIndex] = payload;
+      } else {
+        state.poll.push(payload);
+      }
+    },
   },
 });
 
-export const { setStatus } = PollSlice.actions;
+export const { setStatus, AddPoll } = PollSlice.actions;
 
 // export const RegisterAsync =
 //   (req: RegisterReq, navigate: NavigateFunction): AppThunk =>

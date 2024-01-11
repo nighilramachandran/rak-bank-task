@@ -4,6 +4,8 @@ import reportWebVitals from "./reportWebVitals";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import PrivateRoutes from "./Routes";
 import darkThemeOptions from "./styles/theme/DarkTheme";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const darkTheme = createTheme(darkThemeOptions);
 
@@ -12,10 +14,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline enableColorScheme />
-      <PrivateRoutes />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline enableColorScheme />
+        <PrivateRoutes />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
 

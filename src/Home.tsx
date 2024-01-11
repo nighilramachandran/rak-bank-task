@@ -120,7 +120,7 @@ const Home: React.FC = () => {
         }}
       >
         <Stack direction={"row"} spacing={5} alignItems={"center"}>
-          <Stack spacing={2}>
+          <Stack spacing={2} sx={{ margin: "15px !important" }}>
             {slides.map((_, index) => (
               <StyledRadio
                 key={index}
@@ -206,15 +206,20 @@ const FinalForm = () => {
           );
         })}
       </Stack>
-      {poll.length > 0 && (
-        <m.div variants={varFade().inRight}>
+
+      <m.div variants={varFade().inRight}>
+        {poll.length > 0 ? (
           <LoadingButton
             onClick={() => handleSubmitPoll()}
             loading={status === "loading" ? true : false}
             children="Submit"
           />
-        </m.div>
-      )}
+        ) : (
+          <Typography sx={{ color: "text.dark", fontSize: "20px" }}>
+            Please rate atleast one question
+          </Typography>
+        )}
+      </m.div>
     </Stack>
   );
 };

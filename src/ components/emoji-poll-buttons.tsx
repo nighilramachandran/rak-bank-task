@@ -63,10 +63,7 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
             onClick={() => handleClick(button, _index)}
             sx={{
               opacity:
-                hoveredEmoji === null ||
-                (hoveredEmoji || pollExists?.icon) === button.icon
-                  ? 1
-                  : 0.5,
+                (hoveredEmoji || pollExists?.icon) === button.icon ? 1 : 0.5,
               transform:
                 (hoveredEmoji || pollExists?.icon) === button.icon
                   ? "translateY(-10px)"

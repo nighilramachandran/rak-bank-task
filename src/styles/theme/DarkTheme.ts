@@ -6,6 +6,7 @@ const darkThemeOptions: ThemeOptions = {
     text: {
       primary: "#FFFFFF",
       secondary: "#6b53fe",
+      dark: "#000000",
     },
     background: {
       default: "#FFFFFF",

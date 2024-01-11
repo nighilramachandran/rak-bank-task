@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
 import { PollProps, RequestStatus } from "../../interfaces";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 interface InitialState {
   status: RequestStatus;
@@ -34,82 +36,28 @@ const PollSlice = createSlice({
 
 export const { setStatus, AddPoll } = PollSlice.actions;
 
-// export const RegisterAsync =
-//   (req: RegisterReq, navigate: NavigateFunction): AppThunk =>
-//   async (dispatch) => {
-//     dispatch(setStatus("loading"));
+export const SubmitPollAsync =
+  (req: PollProps[]): AppThunk =>
+  async (dispatch) => {
+    dispatch(setStatus("loading"));
+    try {
+      const response = await axios.post(
+        "https://jsonplaceholder.typicode.com/posts",
+        req
+      );
 
-//     try {
-//       // const { data } = await axios.post<ApiResponse>(regiserRoutes, req);
-//       // if (data.status) {
-//       //   dispatch(setStatus("data"));
-//       //   enqueueSnackbar(data.msg, {
-//       //     variant: "success",
-//       //   });
-//       //   navigate(ROOT);
-//       // }
-//       // if (!data.status) {
-//       //   console.log("false");
-//       //   enqueueSnackbar(data.msg, {
-//       //     variant: "error",
-//       //   });
-//       // }
-//     } catch (error: any) {
-//       dispatch(setStatus("error"));
-//     }
-//   };
-
-// export const LoginAsync =
-//   (req: LoginReq, navigate: NavigateFunction): AppThunk =>
-//   async (dispatch) => {
-//     dispatch(setStatus("loading"));
-//     const { AUTH, ROOT } = ROUTES;
-//     try {
-//       const { data } = await axios.post<ApiResponse>(loginRoutes, req);
-
-//       if (data.status) {
-//         dispatch(setStatus("data"));
-//         dispatch(setUser(data.user));
-//         dispatch(setIsAuth(data.user.isOnline));
-//         sessionStorage.setItem("chat-app-user", JSON.stringify(data.user));
-//         navigate(AUTH.HOME);
-//       }
-//       if (!data.status) {
-//         navigate(ROOT);
-//         enqueueSnackbar(data.msg, {
-//           variant: "error",
-//         });
-//       }
-//     } catch (error: any) {
-//       dispatch(setStatus("error"));
-//     }
-//   };
-
-// export const LogOutAsync =
-//   (req: LogOutReq, navigate: NavigateFunction): AppThunk =>
-//   async (dispatch) => {
-//     dispatch(setStatus("loading"));
-//     const { ROOT } = ROUTES;
-//     try {
-//       const { data } = await axios.post<ApiResponse>(logOutRoutes, req);
-//       console.log(data);
-
-//       if (data.status) {
-//         dispatch(setStatus("data"));
-//         dispatch(setUser(data.user));
-//         dispatch(setIsAuth(data.user.isOnline));
-//         sessionStorage.removeItem("chat-app-user");
-//         navigate(ROOT);
-//       }
-//       if (!data.status) {
-//         navigate(ROOT);
-//         enqueueSnackbar(data.msg, {
-//           variant: "error",
-//         });
-//       }
-//     } catch (error: any) {
-//       dispatch(setStatus("error"));
-//     }
-//   };
-
+      if (response.status === 201) {
+        dispatch(setStatus("data"));
+        enqueueSnackbar("success", {
+          variant: "success",
+        });
+      } else {
+        enqueueSnackbar("Something went wrong", {
+          variant: "error",
+        });
+      }
+    } catch (error: any) {
+      dispatch(setStatus("error"));
+    }
+  };
 export default PollSlice;

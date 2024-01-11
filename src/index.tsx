@@ -6,6 +6,8 @@ import PrivateRoutes from "./Routes";
 import darkThemeOptions from "./styles/theme/DarkTheme";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import MotionLazyContainer from "./animate/MotionLazyContainer";
+import { SnackbarProvider } from "notistack";
 
 const darkTheme = createTheme(darkThemeOptions);
 
@@ -16,8 +18,17 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>
-        <CssBaseline enableColorScheme />
-        <PrivateRoutes />
+        <SnackbarProvider
+          maxSnack={2}
+          data-testid="toastid"
+          autoHideDuration={3000}
+          anchorOrigin={{ horizontal: "center", vertical: "top" }}
+        >
+          <CssBaseline enableColorScheme />
+          <MotionLazyContainer>
+            <PrivateRoutes />
+          </MotionLazyContainer>
+        </SnackbarProvider>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>

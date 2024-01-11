@@ -1,13 +1,16 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import EmojiPollButtons, {
   buttonProps,
 } from "./ components/emoji-poll-buttons";
 import VerticalCarousel from "./ components/vertical-carousel";
 import styled from "@emotion/styled";
-import { useAppSelector } from "./redux/hooks";
 import { useDispatch } from "react-redux";
-import { AddPoll } from "./redux/reducers/poll";
+import { AddPoll, SubmitPollAsync } from "./redux/reducers/poll";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import MotionViewport from "./animate/MotionViewport";
+import { m } from "framer-motion";
+import { varFade } from "./animate/variants";
 
 const Home: React.FC = () => {
   //states
@@ -16,7 +19,8 @@ const Home: React.FC = () => {
   const [firstGridWidth, setFirstGridWidth] = useState<string>("50%");
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
-  const dispatch = useDispatch();
+  //dispatchers
+  const dispatch = useAppDispatch();
 
   //functions
   const handleSlideChange = (index: number) => {
@@ -24,7 +28,6 @@ const Home: React.FC = () => {
   };
 
   const handleEmotSelect = (value: buttonProps, currentIndex: number) => {
-    console.log(value, currentIndex);
     handleSlideChange(currentIndex + 1);
     dispatch(
       AddPoll({
@@ -36,9 +39,10 @@ const Home: React.FC = () => {
     );
   };
 
+  //slides
   const slides = [
     {
-      description: "How was your week overall?",
+      description: "How was your week overall ?",
       polling: (
         <EmojiPollButtons
           _index={currentSlide}
@@ -49,7 +53,7 @@ const Home: React.FC = () => {
       ),
     },
     {
-      description: "How did you like last weeks's bowling event",
+      description: "How did you like last weeks's bowling event ?",
       polling: (
         <EmojiPollButtons
           _index={currentSlide}
@@ -60,7 +64,18 @@ const Home: React.FC = () => {
       ),
     },
     {
-      description: "How was your week overall?",
+      description: "How was your experience with us ?",
+      polling: (
+        <EmojiPollButtons
+          _index={currentSlide}
+          handleEmotSelect={(value, currentIndex) =>
+            handleEmotSelect(value, currentIndex)
+          }
+        />
+      ),
+    },
+    {
+      description: "Will you recommend us to your friends ?",
       polling: (
         <EmojiPollButtons
           _index={currentSlide}
@@ -94,7 +109,7 @@ const Home: React.FC = () => {
     width: firstGridWidth,
     transition: "width 0.5s ease",
   };
-
+  const isLastSlide = currentSlide === slides.length - 1;
   return (
     <Grid container sx={{ height: "100vh" }}>
       <Grid
@@ -116,7 +131,6 @@ const Home: React.FC = () => {
               />
             ))}
           </Stack>
-
           <VerticalCarousel
             type={"question"}
             slides={slides}
@@ -128,15 +142,81 @@ const Home: React.FC = () => {
         item
         xs={12}
         md={6}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        sx={{
+          p: 5,
+          display: "flex",
+          alignItems: isLastSlide ? "start" : "center",
+          justifyContent: isLastSlide ? "start" : "center",
+        }}
       >
-        <VerticalCarousel
-          type={"emot"}
-          slides={slides}
-          currentSlide={currentSlide}
-        />
+        {!isLastSlide ? (
+          <VerticalCarousel
+            type={"emot"}
+            slides={slides}
+            currentSlide={currentSlide}
+          />
+        ) : (
+          toggle && <FinalForm />
+        )}
       </Grid>
     </Grid>
+  );
+};
+
+const FinalForm = () => {
+  //selectors
+  const polls = useAppSelector((state) => state.Poll.poll);
+
+  const dispatch = useAppDispatch();
+
+  const handleSubmitPoll = () => {
+    dispatch(SubmitPollAsync(polls));
+  };
+
+  return (
+    <Stack gap={5} component={MotionViewport} width={"100%"}>
+      <m.div variants={varFade().inRight}>
+        <Typography
+          sx={{ color: "text.dark", fontWeight: "800", fontSize: "30px" }}
+        >
+          An Overview of your Answers
+        </Typography>
+      </m.div>
+      <Stack spacing={3}>
+        {polls.map((poll, ind) => {
+          return (
+            <Stack spacing={2} key={ind}>
+              <m.div variants={varFade().inRight}>
+                <Stack
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                >
+                  <Typography sx={{ color: "text.dark", fontSize: "20px" }}>
+                    {poll.description}
+                  </Typography>
+                  <Typography sx={{ fontSize: "30px" }}>{poll.icon}</Typography>
+                </Stack>
+              </m.div>
+              <m.div key={ind} variants={varFade().inRight}>
+                <Divider sx={{ bgcolor: "#dcd0d0", opacity: 0.5 }}></Divider>
+              </m.div>
+            </Stack>
+          );
+        })}
+      </Stack>
+      {polls.length > 0 && (
+        <m.div variants={varFade().inRight}>
+          <Button
+            onClick={() => handleSubmitPoll()}
+            sx={{ bgcolor: "primary.main" }}
+            variant="contained"
+          >
+            Submit
+          </Button>
+        </m.div>
+      )}
+    </Stack>
   );
 };
 

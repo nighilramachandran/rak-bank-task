@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import React from "react";
 
 //interfaces
@@ -23,7 +23,7 @@ const VerticalCarousel: React.FC<carouslProps> = ({
         {slides.map((slide, index) => {
           return (
             index === currentSlide && (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 300 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const VerticalCarousel: React.FC<carouslProps> = ({
                 ) : (
                   <>{slide.polling}</>
                 )}
-              </motion.div>
+              </m.div>
             )
           );
         })}

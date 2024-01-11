@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 
+//interfaces
 interface carouslProps {
   slides: slidesProps[];
   currentSlide: number;

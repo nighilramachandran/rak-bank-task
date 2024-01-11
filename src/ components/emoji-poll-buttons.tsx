@@ -1,42 +1,37 @@
 import styled from "@emotion/styled";
 import { Box, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 
-interface buttonProps {
-  id: number;
+export interface buttonProps {
   icon: string;
   value: string;
 }
 
+export interface EmojiPollButtonsProps {
+  handleEmotSelect: (value: buttonProps, currentIndex: number) => void;
+  _index: number;
+}
+
 const buttons: buttonProps[] = [
   {
-    id: 1,
     icon: "👍",
     value: "Good",
   },
   {
-    id: 2,
     icon: "🤔",
     value: "Not Sure",
   },
 
   {
-    id: 3,
     icon: "👎",
     value: "Bad",
   },
 ];
 
-const EmojiStyled = styled(Box)(() => ({
-  fontSize: "3em",
-  transition: "opacity 0.3s,transform 0.3s",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  flexDirection: "column",
-}));
-
-const EmojiPollButtons = () => {
+const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
+  handleEmotSelect,
+  _index,
+}) => {
   //states
   const [hoveredEmoji, setHoveredEmoji] = useState<string | null>(null);
 
@@ -48,14 +43,19 @@ const EmojiPollButtons = () => {
   const handleMouseOut = () => {
     setHoveredEmoji(null);
   };
+
+  const handleClick = (button: buttonProps, currentIndex: number) => {
+    handleEmotSelect && handleEmotSelect(button, currentIndex);
+  };
   return (
     <Stack direction={"row"} spacing={10}>
-      {buttons.map((button) => {
+      {buttons.map((button, index) => {
         return (
           <EmojiStyled
-            key={button.id}
+            key={index}
             onMouseOver={() => handleIconHover(button.icon)}
             onMouseOut={handleMouseOut}
+            onClick={() => handleClick(button, _index)}
             sx={{
               opacity:
                 hoveredEmoji === null
@@ -85,5 +85,14 @@ const EmojiPollButtons = () => {
     </Stack>
   );
 };
+
+const EmojiStyled = styled(Box)(() => ({
+  fontSize: "3em",
+  transition: "opacity 0.3s,transform 0.3s",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "column",
+}));
 
 export default EmojiPollButtons;

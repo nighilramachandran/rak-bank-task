@@ -1,16 +1,16 @@
-import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import EmojiPollButtons, {
   buttonProps,
 } from "./ components/emoji-poll-buttons";
 import VerticalCarousel from "./ components/vertical-carousel";
 import styled from "@emotion/styled";
-import { useDispatch } from "react-redux";
 import { AddPoll, SubmitPollAsync } from "./redux/reducers/poll";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import MotionViewport from "./animate/MotionViewport";
 import { m } from "framer-motion";
 import { varFade } from "./animate/variants";
+import LoadingButton from "./ components/loading-button";
 
 const Home: React.FC = () => {
   //states
@@ -165,12 +165,13 @@ const Home: React.FC = () => {
 
 const FinalForm = () => {
   //selectors
-  const polls = useAppSelector((state) => state.Poll.poll);
+  const { poll, status } = useAppSelector((state) => state.Poll);
 
   const dispatch = useAppDispatch();
+  console.log("status", status);
 
   const handleSubmitPoll = () => {
-    dispatch(SubmitPollAsync(polls));
+    dispatch(SubmitPollAsync(poll));
   };
 
   return (
@@ -183,7 +184,7 @@ const FinalForm = () => {
         </Typography>
       </m.div>
       <Stack spacing={3}>
-        {polls.map((poll, ind) => {
+        {poll.map((pol, ind) => {
           return (
             <Stack spacing={2} key={ind}>
               <m.div variants={varFade().inRight}>
@@ -193,9 +194,9 @@ const FinalForm = () => {
                   justifyContent={"space-between"}
                 >
                   <Typography sx={{ color: "text.dark", fontSize: "20px" }}>
-                    {poll.description}
+                    {pol.description}
                   </Typography>
-                  <Typography sx={{ fontSize: "30px" }}>{poll.icon}</Typography>
+                  <Typography sx={{ fontSize: "30px" }}>{pol.icon}</Typography>
                 </Stack>
               </m.div>
               <m.div key={ind} variants={varFade().inRight}>
@@ -205,15 +206,13 @@ const FinalForm = () => {
           );
         })}
       </Stack>
-      {polls.length > 0 && (
+      {poll.length > 0 && (
         <m.div variants={varFade().inRight}>
-          <Button
+          <LoadingButton
             onClick={() => handleSubmitPoll()}
-            sx={{ bgcolor: "primary.main" }}
-            variant="contained"
-          >
-            Submit
-          </Button>
+            loading={status === "loading" ? true : false}
+            children="Submit"
+          />
         </m.div>
       )}
     </Stack>

@@ -38,6 +38,7 @@ describe("EmojiPollButtons component", () => {
   test("renders buttons with icons and values", () => {
     setup();
     // expect(screen.getAllByTestId("btn-poll")).toHaveLength(3);
+
     expect(screen.getAllByTestId(/btn-poll-name/)).toHaveLength(3);
     expect(screen.getByText("Good")).toBeInTheDocument();
     expect(screen.getByText("Not Sure")).toBeInTheDocument();

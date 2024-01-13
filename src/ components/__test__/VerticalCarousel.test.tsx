@@ -1,7 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import VerticalCarousel, { carouslProps } from "../vertical-carousel";
-import userEvent from "@testing-library/user-event";
-import Home from "../../Home";
 
 const setup = (props: Partial<carouslProps> = {}) => {
   const defaultProps: carouslProps = {

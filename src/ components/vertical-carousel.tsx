@@ -3,14 +3,14 @@ import { m, AnimatePresence } from "framer-motion";
 import React from "react";
 
 //interfaces
-interface carouslProps {
+export interface carouslProps {
   slides: slidesProps[];
   currentSlide: number;
   type: "question" | "emot";
 }
-interface slidesProps {
+export interface slidesProps {
   description: string;
-  polling?: JSX.Element;
+  polling?: React.JSX.Element;
 }
 const VerticalCarousel: React.FC<carouslProps> = ({
   slides,
@@ -31,6 +31,7 @@ const VerticalCarousel: React.FC<carouslProps> = ({
             >
               {type === "question" ? (
                 <Typography
+                  data-testid={`type-question-index-${index}`}
                   sx={{
                     fontWeight: 800,
                     fontSize: "30px",
@@ -40,7 +41,9 @@ const VerticalCarousel: React.FC<carouslProps> = ({
                   {slide.description}
                 </Typography>
               ) : (
-                <>{slide.polling}</>
+                <Box data-testid={`type-emot-index-${index}`}>
+                  {slide.polling}
+                </Box>
               )}
             </m.div>
           )

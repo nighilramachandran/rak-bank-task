@@ -123,6 +123,7 @@ const Home: React.FC = () => {
           <Stack spacing={2} sx={{ margin: "15px !important" }}>
             {slides.map((_, index) => (
               <StyledRadio
+                data-testid={`btn-radio-slide-${index}`}
                 key={index}
                 sx={{
                   bgcolor: index === currentSlide ? "transparent" : "white",

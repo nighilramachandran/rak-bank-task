@@ -60,6 +60,7 @@ const EmojiPollButtons: React.FC<EmojiPollButtonsProps> = ({
 
         return (
           <EmojiStyled
+            data-testid={`btn-poll-name-${button.value}-slide-${_index}`}
             key={index}
             onMouseOver={() => handleIconHover(button.icon)}
             onMouseOut={handleMouseOut}

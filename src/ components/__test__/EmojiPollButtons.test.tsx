@@ -76,4 +76,10 @@ describe("EmojiPollButtons component", () => {
     const opacity = computedStyles.getPropertyValue("opacity");
     expect(opacity).toBe("0");
   });
+
+  test("match the snapshot", () => {
+    setup();
+    const container = document.body;
+    expect(container).toMatchSnapshot();
+  });
 });

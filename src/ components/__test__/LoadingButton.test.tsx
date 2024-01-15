@@ -60,4 +60,8 @@ describe("LoadingButton component", () => {
     );
     expect(screen.queryByRole("progressbar")).toBeNull();
   });
+  test("match the snapshot", () => {
+    const container = document.body;
+    expect(container).toMatchSnapshot();
+  });
 });

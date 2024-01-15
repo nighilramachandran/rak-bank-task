@@ -35,4 +35,9 @@ describe("VerticalCarousel component", () => {
     expect(text).not.toBe("Emot Slide 2");
     expect(text).not.toBe("Question 1");
   });
+  test("match the snapshot", () => {
+    setup();
+    const container = document.body;
+    expect(container).toMatchSnapshot();
+  });
 });

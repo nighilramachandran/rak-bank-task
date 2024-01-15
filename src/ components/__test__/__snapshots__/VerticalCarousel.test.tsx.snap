@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VerticalCarousel component match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      style="opacity: 1; transform: none;"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1pb4qw9-MuiTypography-root"
+        data-testid="type-question-index-0"
+      >
+        Question 1
+      </p>
+    </div>
+  </div>
+</body>
+`;

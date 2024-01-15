@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmojiPollButtons component match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiStack-root css-7v40v5-MuiStack-root"
+    >
+      <div
+        class="MuiBox-root css-c0z7sh"
+        data-testid="btn-poll-name-Good-slide-0"
+      >
+        👍
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-4t8l2l-MuiTypography-root"
+        >
+          Good
+        </p>
+      </div>
+      <div
+        class="MuiBox-root css-c0z7sh"
+        data-testid="btn-poll-name-Not Sure-slide-0"
+      >
+        🤔
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-4t8l2l-MuiTypography-root"
+        >
+          Not Sure
+        </p>
+      </div>
+      <div
+        class="MuiBox-root css-c0z7sh"
+        data-testid="btn-poll-name-Bad-slide-0"
+      >
+        👎
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-4t8l2l-MuiTypography-root"
+        >
+          Bad
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+`;
